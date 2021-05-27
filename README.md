@@ -44,3 +44,4 @@ somefolder/
 + `r!rebalance <username>` Checks the rebalance for a specific player
 + `r!map <map id>` Recalculates star rating for a specific map
 + `r!update` Updates the osu repo in case any new changes got pushed (This is a bot owner only command)
++ `r!simulate <map id> [accuracy] [mods]` Simulates a play on the given map with provided acc/mods (By default 100% and NM)

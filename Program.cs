@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OsuSharp;
@@ -44,6 +45,14 @@ namespace RebalanceBot
                 Services = serviceProvider,
                 StringPrefixes = new[] {args.Length == 3 ? args[2] : "r!"}
             });
+
+            _cnext.CommandErrored += async (_, eventArgs) =>
+            {
+                if (eventArgs.Exception.Message.Contains("command was not found"))
+                    return;
+                await eventArgs.Context.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("❎"));
+                await eventArgs.Context.RespondAsync($"{eventArgs.Exception.Message}");
+            };
 
             _cnext.RegisterCommands(Assembly.GetEntryAssembly());
             await _discordClient.ConnectAsync();
