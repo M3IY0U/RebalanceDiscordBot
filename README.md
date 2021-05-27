@@ -37,8 +37,8 @@ somefolder/
         └── PerformanceCalculator <-- This is the folder the bot runs in
 ```
 1. Extract the zip archive downloaded from [Releases](https://github.com/M3IY0U/RebalanceDiscordBot/releases) into the PerformanceCalculator folder
-2. This is a CLI App, so start a terminal of your choice, navigate to the folder and run it via `RebalanceBot.exe <your discord bot token> <your osu api key>`
-3. Should be running now, the prefix will be `r!` or mentioning the bot
+2. This is a CLI App, so start a terminal of your choice, navigate to the folder and run it via `RebalanceBot.exe <your discord bot token> <your osu api key> [bot prefix]`
+3. Should be running now, if you didn't configure it, the prefix will be `r!` or mentioning the bot
 
 ### Available commands (for now): 
 + `r!rebalance <username>` Checks the rebalance for a specific player

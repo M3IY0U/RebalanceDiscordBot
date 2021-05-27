@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RebalanceBot
 {
-    public class Utilities
+    public static class Utilities
     {
         public static async Task DownloadMap(string id)
         {
@@ -13,6 +13,15 @@ namespace RebalanceBot
             await using Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
                 stream = new FileStream($"cache/{id}.osu", FileMode.Create);
             await contentStream.CopyToAsync(stream);
+        }
+
+        public readonly struct Credentials
+        {
+            public readonly string BotToken;
+            public readonly string OsuApiKey;
+
+            public Credentials(string botToken, string osuApiKey)
+                => (BotToken, OsuApiKey) = (botToken, osuApiKey);
         }
     }
 }

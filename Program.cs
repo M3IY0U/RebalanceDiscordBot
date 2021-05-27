@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using DSharpPlus;
@@ -14,26 +13,26 @@ namespace RebalanceBot
     {
         private static DiscordClient _discordClient;
         private static OsuClient _osuClient;
-        public static KeyValuePair<string, string> Tokens;
+        public static Utilities.Credentials Credentials;
         private static CommandsNextExtension _cnext;
 
         private static async Task Main(string[] args)
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: RebalanceBot.exe <discord token> <osu api key>");
+                Console.WriteLine("Usage: RebalanceBot.exe <discord token> <osu api key> [bot prefix]");
                 return;
             }
 
-            Tokens = new KeyValuePair<string, string>($"{args[0]}", $"{args[1]}");
+            Credentials = new Utilities.Credentials(args[0], args[1]);
 
             _discordClient = new DiscordClient(new DiscordConfiguration
             {
-                Token = Tokens.Key,
+                Token = Credentials.BotToken,
                 MinimumLogLevel = LogLevel.Information
             });
 
-            _osuClient = new OsuClient(new OsuSharpConfiguration {ApiKey = Tokens.Value});
+            _osuClient = new OsuClient(new OsuSharpConfiguration {ApiKey = Credentials.OsuApiKey});
 
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(_osuClient)
@@ -43,7 +42,7 @@ namespace RebalanceBot
             {
                 EnableDms = false,
                 Services = serviceProvider,
-                StringPrefixes = new[] {"r!"}
+                StringPrefixes = new[] {args.Length == 3 ? args[2] : "r!"}
             });
 
             _cnext.RegisterCommands(Assembly.GetEntryAssembly());

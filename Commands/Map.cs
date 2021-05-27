@@ -16,7 +16,8 @@ namespace RebalanceBot.Commands
         public Map(OsuClient client) => Client = client;
 
         [Command("map"), Description("Recalculate star rating for a specific map.")]
-        public async Task MapCommand(CommandContext ctx, [Description("ID of the map you want to recalc")]string mapId)
+        public async Task MapCommand(CommandContext ctx, [Description("ID of the map you want to recalc")]
+            string mapId)
         {
             var map = await Client.GetBeatmapByIdAsync(Convert.ToInt64(mapId), GameMode.Standard);
 
@@ -28,9 +29,7 @@ namespace RebalanceBot.Commands
                     return;
                 }
 
-                await ctx.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("📥"));
                 await Utilities.DownloadMap(mapId);
-                await ctx.Message.DeleteOwnReactionAsync(DiscordEmoji.FromUnicode("📥"));
             }
 
             await ctx.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("♨"));
@@ -54,7 +53,7 @@ namespace RebalanceBot.Commands
 
                 await ctx.Message.DeleteOwnReactionAsync(DiscordEmoji.FromUnicode("♨"));
 
-                using (var fs = new FileStream($"{mapId}.txt", FileMode.Open))
+                await using (var fs = new FileStream($"{mapId}.txt", FileMode.Open))
                 {
                     await new DiscordMessageBuilder()
                         .WithContent($"Old Star Rating: {Math.Round(map.StarRating.GetValueOrDefault(), 2)}")

@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -11,8 +10,6 @@ namespace RebalanceBot.Commands
         [Command("update"), RequireOwner]
         public async Task UpdateCommand(CommandContext ctx)
         {
-            if (!ctx.Client.CurrentApplication.Owners.Contains(ctx.Message.Author)) return;
-
             using (var exeProcess = Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = "../../osu",

@@ -33,7 +33,7 @@ namespace RebalanceBot.Commands
             {
                 FileName = "dotnet",
                 Arguments =
-                    $"run -- profile {user.UserId} {Program.Tokens.Value} -o {user.UserId}.txt",
+                    $"run -- profile {user.UserId} {Program.Credentials.OsuApiKey} -o {user.UserId}.txt",
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
                 CreateNoWindow = true
@@ -50,7 +50,7 @@ namespace RebalanceBot.Commands
 
             await ctx.Message.DeleteOwnReactionAsync(DiscordEmoji.FromUnicode("♨"));
 
-            using (var fs = new FileStream($"{user.UserId}.txt", FileMode.Open))
+            await using (var fs = new FileStream($"{user.UserId}.txt", FileMode.Open))
             {
                 await new DiscordMessageBuilder()
                     .WithReply(ctx.Message.Id, true)
