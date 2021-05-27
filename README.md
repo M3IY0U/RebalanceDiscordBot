@@ -1,4 +1,5 @@
-# RebalanceDiscordBot
+# RebalanceBot
+#### Quick Disclaimer this is by no means a bot meant for huge servers or heavy workload (it might work but i can't guarantee anything)
 ## Requirements
 + Have Dotnet Runtime installed (in order for Performance Calculator to run)
 + Have a Discord Bot + osu!api v1 Key
