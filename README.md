@@ -39,3 +39,8 @@ somefolder/
 1. Extract the zip archive downloaded from [Releases](https://github.com/M3IY0U/RebalanceDiscordBot/releases) into the PerformanceCalculator folder
 2. This is a CLI App, so start a terminal of your choice, navigate to the folder and run it via `RebalanceBot.exe <your discord bot token> <your osu api key>`
 3. Should be running now, the prefix will be `r!` or mentioning the bot
+
+### Available commands (for now): 
++ `r!rebalance <username>` Checks the rebalance for a specific player
++ `r!map <map id>` Recalculates star rating for a specific map
++ `r!update` Updates the osu repo in case any new changes got pushed (This is a bot owner only command)
