@@ -18,10 +18,11 @@ namespace RebalanceBot
         public readonly struct Credentials
         {
             public readonly string BotToken;
-            public readonly string OsuApiKey;
+            public readonly long OsuApiClientId;
+            public readonly string OsuApiClientSecret;
 
-            public Credentials(string botToken, string osuApiKey)
-                => (BotToken, OsuApiKey) = (botToken, osuApiKey);
+            public Credentials(string botToken, long osuApiClientId, string osuApiClientSecret)
+                => (BotToken, OsuApiClientId, OsuApiClientSecret) = (botToken, osuApiClientId, osuApiClientSecret);
         }
     }
 }

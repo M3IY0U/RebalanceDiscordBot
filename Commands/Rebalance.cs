@@ -5,23 +5,23 @@ using System.Threading.Tasks;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
-using OsuSharp;
+using OsuSharp.Interfaces;
 
 namespace RebalanceBot.Commands
 {
     public class Rebalance : BaseCommandModule
     {
-        private OsuClient Client;
+        private IOsuClient Client;
 
-        public Rebalance(OsuClient client) => Client = client;
+        public Rebalance(IOsuClient client) => Client = client;
 
         [Command("rebalance"), Aliases("rb"), Description("Check the rebalance for a specific player.")]
         public async Task RebalanceCommand(CommandContext ctx,
             [Description("Username of the player you want to check."), RemainingText]
             string username)
         {
-            var user = await Client.GetUserByUsernameAsync(username, GameMode.Standard);
-
+            var user = await Client.GetUserAsync(username);
+            
             if (user is null)
             {
                 await ctx.Message.RespondAsync($"No user with name {username} found.");
@@ -33,7 +33,7 @@ namespace RebalanceBot.Commands
             {
                 FileName = "dotnet",
                 Arguments =
-                    $"run -- profile {user.UserId} {Program.Credentials.OsuApiKey} -o {user.UserId}.txt",
+                    $"run -- profile {user.Id} {Program.Credentials.OsuApiClientId} {Program.Credentials.OsuApiClientSecret} -o {user.Id}.txt",
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
                 CreateNoWindow = true
@@ -50,7 +50,7 @@ namespace RebalanceBot.Commands
 
             await ctx.Message.DeleteOwnReactionAsync(DiscordEmoji.FromUnicode("♨"));
 
-            await using (var fs = new FileStream($"{user.UserId}.txt", FileMode.Open))
+            await using (var fs = new FileStream($"{user.Id}.txt", FileMode.Open))
             {
                 await new DiscordMessageBuilder()
                     .WithReply(ctx.Message.Id, true)
@@ -62,7 +62,7 @@ namespace RebalanceBot.Commands
 
             try
             {
-                File.Delete($"{user.UserId}.txt");
+                File.Delete($"{user.Id}.txt");
             }
             catch (Exception)
             {
